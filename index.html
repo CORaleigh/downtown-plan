@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Load a basic WebMap - 4.1</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Oswald">
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      h1 {
+        font-size: 46pt;
+        color: rgb(36, 73, 143);
+        margin-top: 20px;
+        margin-bottom: 0px;
+      }
+      h2 {
+        font-size: 26pt;
+        color: white;
+        margin-bottom: 0;
+        margin-top: -4px;
+        font-weight: 100;
+      }
+
+
+    </style>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #header {
+      height: 150px;
+      background-color: rgb(96, 204, 245);
+    }
+    #title {
+      float: left;
+    }
+    #header img {
+        max-height: 120px;
+        margin-top: 1em;
+        margin-right: 2em;
+        margin-left: 2em;
+        float: left;
+    }
+    #menu {
+      min-height: 100px;
+      width: 200px;
+    }
+
+    #menu1 {
+      background-color: rgb(57, 53, 54);
+      min-height: 100px;
+      width: 200px;
+      margin-bottom: 1em;
+    }  
+    #menu2 {
+      background-color: rgb(57, 53, 54);
+      min-height: 100px;
+      width: 200px;
+      margin-bottom: 1em;
+    }        
+    #menus {
+      position: absolute;
+      top: 170px;
+      left: 1em;
+      color: white;
+    }
+    .menu {
+      padding: 1em;
+    }
+
+    .legend-svg {
+      display: inline-block;
+      padding-bottom: 0.5em;
+      padding-right: 1em;
+    }
+    .legend-label {
+      display: inline-block;
+      padding-top: 10px;
+      position: absolute;
+    }
+
+    .legend-item {
+      background-color: rgb(79, 76, 77);
+      height: 35px;
+      margin-bottom: 0.5em;
+
+    }
+
+
+
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
+
+  <script src="https://js.arcgis.com/4.1/"></script>
+
+  <script>
+    require([
+      "esri/views/MapView",
+      "esri/WebMap",
+      "esri/layers/VectorTileLayer",
+      "dojo/domReady!"
+    ], function(
+      MapView, WebMap, VectorTileLayer
+    ) {
+
+      /************************************************************
+       * Creates a new WebMap instance. A WebMap must reference
+       * a PortalItem ID that represents a WebMap saved to
+       * arcgis.com or an on-premise portal.
+       *
+       * To load a WebMap from an on-premise portal, set the portal
+       * url in esriConfig.portalUrl.
+       ************************************************************/
+      var map = new WebMap({
+        portalItem: { // autocasts as new PortalItem()
+          id: "05e67378902b4128b31ce7f07f3808a7"
+        }
+      });
+
+      /************************************************************
+       * Set the WebMap instance to the map property in a MapView.
+       ************************************************************/
+      var view = new MapView({
+        map: map,
+        container: "viewDiv"
+      });
+      var handle = map.watch('loaded', function(newValue, oldValue, property, object) {
+        // map.basemap.baseLayers = [];
+        // var tileLyr = new VectorTileLayer({
+        //   url: "https://www.arcgis.com/sharing/rest/content/items/3981b4e8cabb4b0fb6d4a8c94379532b/resources/styles/root.json"
+        // });
+        // map.add(tileLyr);           
+      });      
+   
+    });
+  </script>
+</head>
+
+<body>
+  <div id="header">
+    <div style="float:left">
+    <img src="downtown.png"/>
+    </div>
+    <div id="title"><h1>DOWNTOWN PLAN</h1><h2>IMPLEMENTATION MAP</h2></div></div>
+  <div id="viewDiv"></div>
+  <div id="menus">
+      <div class="menu" id="menu1">
+        <h3>Framework Themes</h3>
+        <hr/>
+        <div>
+          <svg class="legend-svg" width="35" height="35" viewBox="0 0 15 15"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(126, 202, 41)" x="0" y="0" width="15" height="15"/>
+          </svg>
+          <div class="legend-label">BREATHE</div>
+        </div>
+        <div>
+          <svg class="legend-svg" width="35" height="35" viewBox="0 0 15 15"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(247, 147, 16)" x="0" y="0" width="15" height="15"/>
+              </svg>
+              <div class="legend-label">MOVE</div>
+        </div> 
+        <div>
+          <svg class="legend-svg" width="35" height="35" viewBox="0 0 15 15"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(143, 54, 159)" x="0" y="0" width="15" height="15"/>
+          </svg>
+          <div class="legend-label">STAY</div>
+        </div>
+        <div>
+          <svg class="legend-svg" width="35" height="35" viewBox="0 0 15 15"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(210, 30, 37)" x="0" y="0" width="15" height="15"/>
+          </svg>
+          <div class="legend-label">LINK</div>
+        </div> 
+      </div>  
+      <div class="menu"  id="menu2">
+        <h3>Catalytic Project Areas</h3>
+        <hr/>
+        <div class="legend-item">
+          <svg class="legend-svg" width="15" height="35" viewBox="0 0 15 35"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(96, 204, 245)" x="0" y="0" width="15" height="35"/>
+          </svg>
+          <div class="legend-label">GATEWAY CENTER</div>
+        </div>
+        <div class="legend-item">
+          <svg class="legend-svg" width="15" height="35" viewBox="0 0 15 35"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(56, 126, 195)" x="0" y="0" width="15" height="35"/>
+              </svg>
+              <div class="legend-label">NORTH END</div>
+        </div> 
+        <div>
+        <div class="legend-item">
+          <svg class="legend-svg" width="15" height="35" viewBox="0 0 15 35"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(0, 170, 166)" x="0" y="0" width="15" height="35"/>
+              </svg>
+              <div class="legend-label">MOORE SQUARE</div>
+        </div> 
+        <div class="legend-item">        
+          <svg class="legend-svg" width="15" height="35" viewBox="0 0 15 35"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(145, 143, 144)" x="0" y="0" width="15" height="35"/>
+          </svg>
+          <div class="legend-label">NASH SQ/RUS</div>
+        </div>
+        <div class="legend-item">
+          <svg class="legend-svg" width="15" height="35" viewBox="0 0 15 35"
+               xmlns="http://www.w3.org/2000/svg">
+
+            <rect fill="rgb(145, 143, 144)" x="0" y="0" width="15" height="35"/>
+          </svg>
+          <div class="legend-label">GLENWOOD GREEN</div>
+        </div> 
+      </div>       
+      </div>
+          
+  </div>
+</body>
+
+</html>
