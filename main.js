@@ -9,7 +9,7 @@ document.documentElement.addEventListener('touchstart', function (event) {
     event.preventDefault();
   }
 }, false);
-element.querySelector('.mdl-layout__content').addEventListener('touchmove', function(e) {
+document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function(e) {
         e.preventDefault();
 
 }, false);
