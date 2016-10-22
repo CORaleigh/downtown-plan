@@ -9,7 +9,10 @@ document.documentElement.addEventListener('touchstart', function (event) {
     event.preventDefault();
   }
 }, false);
+document.addEventListener('touchmove', function(e) {
+        e.preventDefault();
 
+}, false);
 require([
     "esri/views/MapView",
     "esri/WebMap",
