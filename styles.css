@@ -16,6 +16,7 @@
 
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
+  overflow: hidden;
 }
 .demo-avatar {
   width: 48px;
@@ -273,4 +274,6 @@ _:-ms-input-placeholder, :root .demo-graph {
     font-size: 20px;
   }
 }
-
+.esri-popup__content {
+  max-height: 400px !important;
+}
