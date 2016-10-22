@@ -2,6 +2,14 @@ var themeLyr = null,
     areaLyr = null,
     themes = [0, 1, 2, 3],
     areas = [0, 1, 2, 3, 4];
+
+
+document.documentElement.addEventListener('touchstart', function (event) {
+  if (event.touches.length > 1) {
+    event.preventDefault();
+  }
+}, false);
+
 require([
     "esri/views/MapView",
     "esri/WebMap",
