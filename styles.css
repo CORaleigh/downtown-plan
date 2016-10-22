@@ -273,6 +273,7 @@ _:-ms-input-placeholder, :root .demo-graph {
   }
   .logo {
     height: 50px;
+    margin-right: 0;
   }
   .mdl-layout-title {
     font-size: 20px;
