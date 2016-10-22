@@ -43,11 +43,11 @@ require([
                 areaLyr = l;
             }
         });
-        // map.basemap.baseLayers = [];
-        // var tileLyr = new VectorTileLayer({
-        //   url: "https://www.arcgis.com/sharing/rest/content/items/3981b4e8cabb4b0fb6d4a8c94379532b/resources/styles/root.json"
-        // });
-        // map.add(tileLyr);           
+        map.basemap.baseLayers = [];
+        var tileLyr = new VectorTileLayer({
+          url: "https://www.arcgis.com/sharing/rest/content/items/3981b4e8cabb4b0fb6d4a8c94379532b/resources/styles/root.json"
+        });
+        map.add(tileLyr, 0);          
     });
 
 });
