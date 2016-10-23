@@ -20,10 +20,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
-
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Material Design Lite</title>
 
     <!-- Add to homescreen for Chrome on Android -->
@@ -49,7 +46,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.cyan-light_blue.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.cyan-light_blue.min.css">   
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
 
@@ -80,17 +77,20 @@
           <div style="float:left">
           <img src="downtown.png" class="logo" />
           </div>        
-          <span class="mdl-layout-title">DOWNTOWN PLAN</span>
+          <span id="title" class="mdl-layout-title">DOWNTOWN PLAN</span>
           <div class="mdl-layout-spacer"></div>
-  <!--         <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+          <div id="textfield" class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" >
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-              <i class="material-icons">search</i>
+              <i onclick="searchClicked()" class="material-icons">search</i>
             </label>
-            <div class="mdl-textfield__expandable-holder">
-              <input class="mdl-textfield__input" type="text" id="search">
+            <div id="inputHolder" class="mdl-textfield__expandable-holder">
+              <input oninput="searchEntered(this)"  class="mdl-textfield__input" type="text" id="search">
               <label class="mdl-textfield__label" for="search">Enter your query...</label>
             </div>
-          </div> -->
+          </div>
+<ul id="list" class="demo-list-item mdl-list" onblur="hideList()">
+
+</ul>          
 <!--           <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
             <i class="material-icons">more_vert</i>
           </button>

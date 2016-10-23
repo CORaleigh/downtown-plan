@@ -278,6 +278,9 @@ _:-ms-input-placeholder, :root .demo-graph {
   .mdl-layout-title {
     font-size: 20px;
   }
+  #list {
+    top: 50px !important;
+  }
 }
 .esri-popup__content {
   max-height: 400px !important;
@@ -285,4 +288,11 @@ _:-ms-input-placeholder, :root .demo-graph {
 
 .mdl-layout {
   overflow: hidden;
+}
+
+#list {
+  position: absolute;
+  right: 0;
+  top: 80px;
+  background-color: rgba(255, 255, 255, 0.80);
 }
