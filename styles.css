@@ -326,3 +326,7 @@ _:-ms-input-placeholder, :root .demo-graph {
 .mdl-color--blue-grey-900 {
   background-color: #242424 !important;
 }
+#image {
+    -webkit-filter: drop-shadow( -5px -5px 5px #000 );
+    filter: drop-shadow( 2px 2px 2px #444 );
+}

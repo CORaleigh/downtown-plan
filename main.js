@@ -13,8 +13,10 @@ document.documentElement.addEventListener('touchstart', function (event) {
 document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
     'use strict';
     e.preventDefault();
-
+    console.log('test');
 }, false);
+
+
 require([
     "esri/views/MapView",
     "esri/WebMap",
@@ -49,8 +51,20 @@ require([
     });
 
     var handle = map.watch('loaded', function(a, b, c, d) {
+
         view.popup.watch('selectedFeature', function(a, b, c, d) {    
+
             if (d.selectedFeature) {
+                d.actions.splice(1, 1);
+                if (d.selectedFeature.attributes.URL) {
+                    d.actions.push({id: 'view-website', title: 'View Website', className: 'esri-icon-link-external'});
+                }
+                var handle = d.viewModel.on("trigger-action", function(event) {
+                    handle.remove();
+                    if (event.action.id = 'view-website') {
+                        window.open(event.target.selectedFeature.attributes.URL);
+                    }
+                });                
                var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
                if (theme === 'Move') {
 
@@ -80,12 +94,15 @@ require([
             }
         });
 
+
         themeLyr.on('layerview-create', function (e) { 
+            
             themeLyr.renderer.uniqueValueInfos.forEach(function (uvi) {
                 uvi.symbol = new PictureMarkerSymbol({
                     height: 30,
                     width: 18.75,
-                    url: uvi.label.toLowerCase() + ".svg"
+                    url: uvi.label.toLowerCase() + ".svg",
+                    declaredClass: "marker"
                     }
                 );
             });
