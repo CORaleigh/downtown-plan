@@ -196,6 +196,9 @@ function searchClicked() {
     if (document.getElementById("title").style.display === 'block' || document.getElementById("title").style.display === '') {
         document.getElementById("title").style.display = 'none';
         document.getElementById("inputHolder").style.maxWidth = '600px';
+    } else {
+        document.getElementById("title").style.display = 'block';
+        document.getElementById("inputHolder").style.maxWidth = '.1px';       
     }
 }
 
