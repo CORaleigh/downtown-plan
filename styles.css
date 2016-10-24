@@ -308,3 +308,10 @@ _:-ms-input-placeholder, :root .demo-graph {
     font-size: 16px;
   }
 }
+
+.esri-popup__button {
+  color: white !important;
+}
+.esri-popup__header {
+  margin-bottom: 1em;
+}

@@ -45,7 +45,28 @@ require([
         map: map,
         container: "map"
     });
+
     var handle = map.watch('loaded', function(a, b, c, d) {
+        view.popup.watch('selectedFeature', function(a, b, c, d) {    
+            if (d.selectedFeature) {
+               var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
+               d._titleNode.parentNode.style.color = '#ffffff';
+               if (theme === 'Move') {
+
+                    d._titleNode.parentNode.style.backgroundColor = '#f79310';
+               }
+               if (theme === 'Stay') {
+                    d._titleNode.parentNode.style.backgroundColor = '#8f369f';
+               }
+               if (theme === 'Breathe') {
+                    d._titleNode.parentNode.style.backgroundColor = '#7eca29';
+               }
+               if (theme === 'Link') {
+                    d._titleNode.parentNode.style.backgroundColor = '#d21e25';
+               }
+                
+            }
+        });        
         themeLyr = d;
 
         d.layers.forEach(function(l) {
