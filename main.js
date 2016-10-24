@@ -19,9 +19,11 @@ require([
     "esri/views/MapView",
     "esri/WebMap",
     "esri/layers/VectorTileLayer",
+    "esri/symbols/PictureMarkerSymbol",
+    "esri/renderers/UniqueValueRenderer",
     "dojo/domReady!"
 ], function (
-    MapView, WebMap, VectorTileLayer
+    MapView, WebMap, VectorTileLayer, PictureMarkerSymbol, UniqueValueRenderer
 ) {
 
     /************************************************************
@@ -68,6 +70,7 @@ require([
         });        
         themeLyr = d;
 
+
         d.layers.forEach(function(l) {
             if (l.title === 'Downtown Plan Projects') {
                 themeLyr = l;
@@ -75,6 +78,20 @@ require([
             if (l.title === 'Catalytic Project Areas') {
                 areaLyr = l;
             }
+        });
+
+        themeLyr.on('layerview-create', function (e) {
+            var pms = null;
+                pms = new PictureMarkerSymbol({
+                    url: 'move.svg',
+                    height: 30
+                });
+            var renderer = new UniqueValueRenderer({
+                field: "Theme",
+                defaultSymbol: new PictureMarkerSymbol()
+            });
+            renderer.addUniqueValueInfo({value: "Move", symbol: pms});
+            themeLyr.renderer = renderer;
         });
         map.basemap.baseLayers = [];
         var tileLyr = new VectorTileLayer({
