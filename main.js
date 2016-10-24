@@ -198,7 +198,8 @@ function searchClicked() {
         document.getElementById("inputHolder").style.maxWidth = '600px';
     } else {
         document.getElementById("title").style.display = 'block';
-        document.getElementById("inputHolder").style.maxWidth = '.1px';       
+        document.getElementById("inputHolder").style.maxWidth = '.1px';  
+        document.getElementById("search").blur();     
     }
 }
 
