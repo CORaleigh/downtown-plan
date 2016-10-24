@@ -315,3 +315,7 @@ _:-ms-input-placeholder, :root .demo-graph {
 .esri-popup__header {
   margin-bottom: 1em;
 }
+.esri-popup__header-title {
+  color: white !important;
+  word-break: normal !important;
+}

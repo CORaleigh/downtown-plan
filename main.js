@@ -50,7 +50,6 @@ require([
         view.popup.watch('selectedFeature', function(a, b, c, d) {    
             if (d.selectedFeature) {
                var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
-               d._titleNode.parentNode.style.color = '#ffffff';
                if (theme === 'Move') {
 
                     d._titleNode.parentNode.style.backgroundColor = '#f79310';
