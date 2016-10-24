@@ -80,18 +80,15 @@ require([
             }
         });
 
-        themeLyr.on('layerview-create', function (e) {
-            var pms = null;
-                pms = new PictureMarkerSymbol({
-                    url: 'move.svg',
-                    height: 30
-                });
-            var renderer = new UniqueValueRenderer({
-                field: "Theme",
-                defaultSymbol: new PictureMarkerSymbol()
+        themeLyr.on('layerview-create', function (e) { 
+            themeLyr.renderer.uniqueValueInfos.forEach(function (uvi) {
+                uvi.symbol = new PictureMarkerSymbol({
+                    height: 30,
+                    width: 18.75,
+                    url: uvi.label.toLowerCase() + ".svg"
+                    }
+                );
             });
-            renderer.addUniqueValueInfo({value: "Move", symbol: pms});
-            themeLyr.renderer = renderer;
         });
         map.basemap.baseLayers = [];
         var tileLyr = new VectorTileLayer({
