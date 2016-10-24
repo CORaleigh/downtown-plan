@@ -319,3 +319,10 @@ _:-ms-input-placeholder, :root .demo-graph {
   color: white !important;
   word-break: normal !important;
 }
+
+.mdl-color--blue-grey-800 {
+  background-color: rgb(77, 78, 76) !important;
+}
+.mdl-color--blue-grey-900 {
+  background-color: #242424 !important;
+}
