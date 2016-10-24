@@ -296,3 +296,15 @@ _:-ms-input-placeholder, :root .demo-graph {
   top: 80px;
   background-color: rgba(255, 255, 255, 0.80);
 }
+
+@media only screen and (device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
+  .mdl-layout-title {
+    font-size: 16px;
+  }
+}
+
+@media only screen and (device-width: 320px) and (-webkit-max-device-pixel-ratio: 1) {
+  .mdl-layout-title {
+    font-size: 16px;
+  }
+}
