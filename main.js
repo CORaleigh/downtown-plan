@@ -151,6 +151,7 @@ function zoomToLocation(center, zoom) {
         center: center,
         zoom: zoom
     });
+    view.zoom = zoom;
 };
 
 function inputResize(event) {
