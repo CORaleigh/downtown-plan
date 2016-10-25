@@ -23,12 +23,14 @@ require([
     "esri/WebMap",
     "esri/layers/VectorTileLayer",
     "esri/symbols/PictureMarkerSymbol",
+    "esri/widgets/Locate",    
     "dojo/domReady!"
 ], function (
     MapView,
     WebMap,
     VectorTileLayer,
-    PictureMarkerSymbol
+    PictureMarkerSymbol,
+    Locate
 ) {
 
     /************************************************************
@@ -53,8 +55,22 @@ require([
         map: map,
         container: "map"
     });
+      var locateBtn = new Locate({
+        view: view
+      });
+      locateBtn.startup();  
+      view.ui.add(locateBtn, {
+        position: "top-left",
+        index: 0
+      });        
 
+    view.watch('scale', function (a) {
+        if (a < 1144.7034353781848) {
+            view.scale = 1144.7034353781848;
+        }
+    });
     map.watch('loaded', function (a, b, c, d) {
+        console.log(view.zoom);
 
         view.popup.watch('selectedFeature', function (a, b, c, d) {
 
@@ -128,6 +144,7 @@ require([
             url: "https://www.arcgis.com/sharing/rest/content/items/3981b4e8cabb4b0fb6d4a8c94379532b/resources/styles/root.json"
         });
         map.add(tileLyr, 0);
+
     });
 
 });
