@@ -4,13 +4,13 @@ var themeLyr = null,
     areas = [0, 1, 2, 3, 4],
     map = null,
     view = null;
-document.documentElement.addEventListener('touchstart', function (event) {
+document.documentElement.addEventListener('touchstart', function(event) {
     'use strict';
     if (event.touches.length > 1) {
         event.preventDefault();
     }
 }, false);
-document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
+document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function(e) {
     'use strict';
     e.preventDefault();
     console.log('test');
@@ -24,7 +24,7 @@ require([
     "esri/symbols/PictureMarkerSymbol",
     "esri/renderers/UniqueValueRenderer",
     "dojo/domReady!"
-], function (
+], function(
     MapView, WebMap, VectorTileLayer, PictureMarkerSymbol, UniqueValueRenderer
 ) {
 
@@ -52,36 +52,43 @@ require([
 
     var handle = map.watch('loaded', function(a, b, c, d) {
 
-        view.popup.watch('selectedFeature', function(a, b, c, d) {    
+        view.popup.watch('selectedFeature', function(a, b, c, d) {
 
             if (d.selectedFeature) {
                 d.actions.splice(1, 1);
                 if (d.selectedFeature.attributes.URL) {
-                    d.actions.push({id: 'view-website', title: 'View Website', className: 'esri-icon-link-external'});
+                    d.actions.push({
+                        id: 'view-website',
+                        title: 'View Website',
+                        className: 'esri-icon-link-external'
+                    });
                 }
-                var handle = d.viewModel.on("trigger-action", function(event) {
-                    handle.remove();
+                var action = d.viewModel.on("trigger-action", function(event) {
+                    
                     if (event.action.id = 'view-website') {
                         window.open(event.target.selectedFeature.attributes.URL);
                     }
-                });                
-               var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
-               if (theme === 'Move') {
+                    if (action.next) {
+                        action.next.remove();
+                    }
+                });
+                var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
+                if (theme === 'Move') {
 
                     d._titleNode.parentNode.style.backgroundColor = '#f79310';
-               }
-               if (theme === 'Stay') {
+                }
+                if (theme === 'Stay') {
                     d._titleNode.parentNode.style.backgroundColor = '#8f369f';
-               }
-               if (theme === 'Breathe') {
+                }
+                if (theme === 'Breathe') {
                     d._titleNode.parentNode.style.backgroundColor = '#7eca29';
-               }
-               if (theme === 'Link') {
+                }
+                if (theme === 'Link') {
                     d._titleNode.parentNode.style.backgroundColor = '#d21e25';
-               }
-                
+                }
+
             }
-        });        
+        });
         themeLyr = d;
 
 
@@ -95,16 +102,15 @@ require([
         });
 
 
-        themeLyr.on('layerview-create', function (e) { 
-            
-            themeLyr.renderer.uniqueValueInfos.forEach(function (uvi) {
+        themeLyr.on('layerview-create', function(e) {
+
+            themeLyr.renderer.uniqueValueInfos.forEach(function(uvi) {
                 uvi.symbol = new PictureMarkerSymbol({
                     height: 30,
                     width: 18.75,
                     url: uvi.label.toLowerCase() + ".svg",
                     declaredClass: "marker"
-                    }
-                );
+                });
             });
         });
         map.basemap.baseLayers = [];
@@ -143,6 +149,7 @@ function filterArea(element, area) {
     areaLyr.definitionExpression = "Name in (" + areas.toString() + ")";
 }
 var xmlhttp;
+
 function searchForAddresses(element) {
     'use strict';
     var node = document.getElementById('list');
@@ -150,7 +157,7 @@ function searchForAddresses(element) {
         xmlhttp.abort();
     }
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             while (node.hasChildNodes()) {
                 node.removeChild(node.lastChild);
@@ -158,7 +165,7 @@ function searchForAddresses(element) {
             document.getElementById("list").style.display = 'block';
 
             var data = JSON.parse(xmlhttp.responseText);
-            data.features.forEach(function (d) {
+            data.features.forEach(function(d) {
                 document.getElementById('list')
                     .insertAdjacentHTML('beforeend', '<li onclick="itemSelected(event)" class="mdl-list__item"><span data-x="' + d.geometry.x + '" data-y="' + d.geometry.y + '" class="address mdl-list__item-primary-content">' + d.attributes.ADDRESS + '</span></li>');
             });
@@ -171,6 +178,7 @@ function searchForAddresses(element) {
     }
 }
 var neighborhoods = [];
+
 function searchForNeighborhoods(element) {
     'use strict';
     var node = document.getElementById('list');
@@ -179,13 +187,13 @@ function searchForNeighborhoods(element) {
         xmlhttp.abort();
     }
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             document.getElementById("list").style.display = 'block';
 
             var data = JSON.parse(xmlhttp.responseText);
             neighborhoods = data;
-            data.features.forEach(function (d) {
+            data.features.forEach(function(d) {
                 document.getElementById('list')
                     .insertAdjacentHTML('beforeend', '<li onclick="itemSelected(event)" class="mdl-list__item"><span class="address mdl-list__item-primary-content">' + d.attributes.NAME + '</span></li>');
             });
@@ -206,10 +214,12 @@ function searchEntered(element) {
 
 document.addEventListener('click', hideList);
 document.getElementById('inputHolder').addEventListener("transitionend", inputResize, false);
+
 function itemSelected(event) {
     'use strict';
-    require(['esri/geometry/Polygon'], function (Polygon) {
-        var x = null, y = null;
+    require(['esri/geometry/Polygon'], function(Polygon) {
+        var x = null,
+            y = null;
         if (event.target.children.length > 0) {
             x = event.target.children[0].getAttribute('data-x');
             y = event.target.children[0].getAttribute('data-y');
@@ -218,9 +228,9 @@ function itemSelected(event) {
             y = event.target.getAttribute('data-y');
         }
 
-      // -> and re-adding the class
+        // -> and re-adding the class
         if (x) {
-            zoomToLocation([parseFloat(x), parseFloat(y)], 18);        
+            zoomToLocation([parseFloat(x), parseFloat(y)], 18);
         } else {
             var name = '';
             if (event.target.children.length > 0) {
@@ -228,18 +238,20 @@ function itemSelected(event) {
             } else {
                 name = event.target.innerHTML;
             }
-            neighborhoods.features.forEach(function (n) {
+            neighborhoods.features.forEach(function(n) {
                 if (n.attributes.NAME === name) {
-                    view.goTo({target: new Polygon(n.geometry)});
+                    view.goTo({
+                        target: new Polygon(n.geometry)
+                    });
                 }
             });
         }
 
         document.getElementById("search").value = '';
         document.getElementById("title").style.display = 'block';
-        document.getElementById("inputHolder").style.maxWidth = '.1px'; 
+        document.getElementById("inputHolder").style.maxWidth = '.1px';
     });
-   
+
 }
 
 function searchClicked() {
@@ -249,8 +261,8 @@ function searchClicked() {
         document.getElementById("inputHolder").style.maxWidth = '600px';
     } else {
         document.getElementById("title").style.display = 'block';
-        document.getElementById("inputHolder").style.maxWidth = '.1px';  
-        document.getElementById("search").blur();     
+        document.getElementById("inputHolder").style.maxWidth = '.1px';
+        document.getElementById("search").blur();
     }
 }
 
