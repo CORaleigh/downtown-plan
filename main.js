@@ -280,7 +280,7 @@ function searchClicked() {
 function zoomToLocation(center, zoom) {
     'use strict';
     require(["esri/geometry/geometryEngine", "esri/Graphic", "esri/symbols/PictureMarkerSymbol"], function (geometryEngine, Graphic, PictureMarkerSymbol) {
-        var buffer = geometryEngine.geodesicBuffer(center, 100, 'meters');
+        var buffer = geometryEngine.geodesicBuffer(center, 200, 'meters');
         view.goTo({
             target: buffer
         });
