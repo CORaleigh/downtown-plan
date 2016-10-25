@@ -57,7 +57,7 @@ require([
     var resultSymbol = new PictureMarkerSymbol({
         width: 30,
         height: 30,
-        url: 'location.svg'
+        url: 'result.svg'
     });
     var searchWidget = new Search({
         view: view,
