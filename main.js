@@ -22,11 +22,12 @@ require([
     "esri/WebMap",
     "esri/layers/VectorTileLayer",
     "esri/symbols/PictureMarkerSymbol",
-    "esri/renderers/UniqueValueRenderer",
-    "esri/geometry/geometryEngine",
     "dojo/domReady!"
 ], function (
-    MapView, WebMap, VectorTileLayer, PictureMarkerSymbol, UniqueValueRenderer, Geometry
+    MapView,
+    WebMap,
+    VectorTileLayer,
+    PictureMarkerSymbol
 ) {
 
     /************************************************************
@@ -37,6 +38,7 @@ require([
      * To load a WebMap from an on-premise portal, set the portal
      * url in esriConfig.portalUrl.
      ************************************************************/
+    'use strict';
     map = new WebMap({
         portalItem: { // autocasts as new PortalItem()
             id: "05e67378902b4128b31ce7f07f3808a7"
@@ -65,8 +67,7 @@ require([
                     });
                 }
                 var action = d.viewModel.on("trigger-action", function (event) {
-                    
-                    if (event.action.id = 'view-website') {
+                    if (event.action.id === 'view-website') {
                         window.open(event.target.selectedFeature.attributes.URL);
                     }
                     if (action.next) {
@@ -104,7 +105,6 @@ require([
 
 
         themeLyr.on('layerview-create', function (e) {
-
             themeLyr.renderer.uniqueValueInfos.forEach(function (uvi) {
                 uvi.symbol = new PictureMarkerSymbol({
                     height: 30,
@@ -113,6 +113,15 @@ require([
                 });
             });
         });
+        areaLyr.on('layerview-create', function (e) {
+            e.layerView.watch('updating', function (val) {
+                if (!val) {
+                    areaLyr.queryFeatures().then(function (results) {
+                        view.goTo(results.features);
+                    });
+                }
+            });
+        });        
         map.basemap.baseLayers = [];
         var tileLyr = new VectorTileLayer({
             url: "https://www.arcgis.com/sharing/rest/content/items/3981b4e8cabb4b0fb6d4a8c94379532b/resources/styles/root.json"
