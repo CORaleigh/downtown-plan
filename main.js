@@ -4,13 +4,13 @@ var themeLyr = null,
     areas = [0, 1, 2, 3, 4],
     map = null,
     view = null;
-document.documentElement.addEventListener('touchstart', function(event) {
+document.documentElement.addEventListener('touchstart', function (event) {
     'use strict';
     if (event.touches.length > 1) {
         event.preventDefault();
     }
 }, false);
-document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function(e) {
+document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
     'use strict';
     e.preventDefault();
     console.log('test');
@@ -23,9 +23,10 @@ require([
     "esri/layers/VectorTileLayer",
     "esri/symbols/PictureMarkerSymbol",
     "esri/renderers/UniqueValueRenderer",
+    "esri/geometry/geometryEngine",
     "dojo/domReady!"
-], function(
-    MapView, WebMap, VectorTileLayer, PictureMarkerSymbol, UniqueValueRenderer
+], function (
+    MapView, WebMap, VectorTileLayer, PictureMarkerSymbol, UniqueValueRenderer, Geometry
 ) {
 
     /************************************************************
@@ -50,9 +51,9 @@ require([
         container: "map"
     });
 
-    var handle = map.watch('loaded', function(a, b, c, d) {
+    map.watch('loaded', function (a, b, c, d) {
 
-        view.popup.watch('selectedFeature', function(a, b, c, d) {
+        view.popup.watch('selectedFeature', function (a, b, c, d) {
 
             if (d.selectedFeature) {
                 d.actions.splice(1, 1);
@@ -63,7 +64,7 @@ require([
                         className: 'esri-icon-link-external'
                     });
                 }
-                var action = d.viewModel.on("trigger-action", function(event) {
+                var action = d.viewModel.on("trigger-action", function (event) {
                     
                     if (event.action.id = 'view-website') {
                         window.open(event.target.selectedFeature.attributes.URL);
@@ -92,7 +93,7 @@ require([
         themeLyr = d;
 
 
-        d.layers.forEach(function(l) {
+        d.layers.forEach(function (l) {
             if (l.title === 'Downtown Plan Projects') {
                 themeLyr = l;
             }
@@ -102,14 +103,13 @@ require([
         });
 
 
-        themeLyr.on('layerview-create', function(e) {
+        themeLyr.on('layerview-create', function (e) {
 
-            themeLyr.renderer.uniqueValueInfos.forEach(function(uvi) {
+            themeLyr.renderer.uniqueValueInfos.forEach(function (uvi) {
                 uvi.symbol = new PictureMarkerSymbol({
                     height: 30,
                     width: 18.75,
-                    url: uvi.label.toLowerCase() + ".svg",
-                    declaredClass: "marker"
+                    url: uvi.label.toLowerCase() + ".svg"
                 });
             });
         });
@@ -147,6 +147,8 @@ function filterArea(element, area) {
         element.querySelector('svg').classList.remove('unselected');
     }
     areaLyr.definitionExpression = "Name in (" + areas.toString() + ")";
+    view.goTo({target: areaLyr.extent});
+
 }
 var xmlhttp;
 
@@ -157,7 +159,7 @@ function searchForAddresses(element) {
         xmlhttp.abort();
     }
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             while (node.hasChildNodes()) {
                 node.removeChild(node.lastChild);
@@ -165,7 +167,7 @@ function searchForAddresses(element) {
             document.getElementById("list").style.display = 'block';
 
             var data = JSON.parse(xmlhttp.responseText);
-            data.features.forEach(function(d) {
+            data.features.forEach(function (d) {
                 document.getElementById('list')
                     .insertAdjacentHTML('beforeend', '<li onclick="itemSelected(event)" class="mdl-list__item"><span data-x="' + d.geometry.x + '" data-y="' + d.geometry.y + '" class="address mdl-list__item-primary-content">' + d.attributes.ADDRESS + '</span></li>');
             });
@@ -187,13 +189,13 @@ function searchForNeighborhoods(element) {
         xmlhttp.abort();
     }
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             document.getElementById("list").style.display = 'block';
 
             var data = JSON.parse(xmlhttp.responseText);
             neighborhoods = data;
-            data.features.forEach(function(d) {
+            data.features.forEach(function (d) {
                 document.getElementById('list')
                     .insertAdjacentHTML('beforeend', '<li onclick="itemSelected(event)" class="mdl-list__item"><span class="address mdl-list__item-primary-content">' + d.attributes.NAME + '</span></li>');
             });
@@ -217,7 +219,7 @@ document.getElementById('inputHolder').addEventListener("transitionend", inputRe
 
 function itemSelected(event) {
     'use strict';
-    require(['esri/geometry/Polygon'], function(Polygon) {
+    require(['esri/geometry/Polygon', 'esri/geometry/Point'], function (Polygon, Point) {
         var x = null,
             y = null;
         if (event.target.children.length > 0) {
@@ -230,7 +232,7 @@ function itemSelected(event) {
 
         // -> and re-adding the class
         if (x) {
-            zoomToLocation([parseFloat(x), parseFloat(y)], 18);
+            zoomToLocation(new Point([parseFloat(x), parseFloat(y)]), 18);
         } else {
             var name = '';
             if (event.target.children.length > 0) {
@@ -238,7 +240,7 @@ function itemSelected(event) {
             } else {
                 name = event.target.innerHTML;
             }
-            neighborhoods.features.forEach(function(n) {
+            neighborhoods.features.forEach(function (n) {
                 if (n.attributes.NAME === name) {
                     view.goTo({
                         target: new Polygon(n.geometry)
@@ -268,10 +270,24 @@ function searchClicked() {
 
 function zoomToLocation(center, zoom) {
     'use strict';
-    view.goTo({
-        center: center,
-        zoom: zoom
+    require(["esri/geometry/geometryEngine", "esri/Graphic", "esri/symbols/PictureMarkerSymbol"], function (geometryEngine, Graphic, PictureMarkerSymbol) {
+        var buffer = geometryEngine.geodesicBuffer(center, 100, 'meters');
+        view.goTo({
+            target: buffer
+        });
+        var graphic = new Graphic({geometry: center, symbol: new PictureMarkerSymbol({
+            width: 30,
+            height: 30,
+            url: 'location.svg'
+        })});
+        view.graphics.removeAll();
+        view.graphics.add(graphic);
+
     });
+    // view.goTo({
+    //     center: center,
+    //     zoom: zoom
+    // });
 }
 
 function inputResize(event) {

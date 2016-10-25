@@ -330,3 +330,7 @@ _:-ms-input-placeholder, :root .demo-graph {
     -webkit-filter: drop-shadow( -5px -5px 5px #000 );
     filter: drop-shadow( 2px 2px 2px #444 );
 }
+
+path {
+  color: #000;
+}
