@@ -5,6 +5,16 @@ var themeLyr = null,
     map = null,
     view = null,
     action = null;
+document.documentElement.addEventListener('touchstart', function (event) {
+    'use strict';
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, false);
+document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
+    'use strict';
+    e.preventDefault();
+}, false);    
 require([
     "esri/views/MapView",
     "esri/WebMap",
