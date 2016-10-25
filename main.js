@@ -3,7 +3,8 @@ var themeLyr = null,
     themes = [0, 1, 2, 3],
     areas = [0, 1, 2, 3, 4],
     map = null,
-    view = null;
+    view = null,
+    action = null;
 document.documentElement.addEventListener('touchstart', function (event) {
     'use strict';
     if (event.touches.length > 1) {
@@ -66,12 +67,12 @@ require([
                         className: 'esri-icon-link-external'
                     });
                 }
-                var action = d.viewModel.on("trigger-action", function (event) {
+                if (action) {
+                   action.remove();
+                }
+                action = d.viewModel.on("trigger-action", function (event) {
                     if (event.action.id === 'view-website') {
                         window.open(event.target.selectedFeature.attributes.URL);
-                    }
-                    if (action.next) {
-                        action.next.remove();
                     }
                 });
                 var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;

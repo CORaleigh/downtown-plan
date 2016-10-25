@@ -334,3 +334,17 @@ _:-ms-input-placeholder, :root .demo-graph {
 path {
   color: #000;
 }
+
+#map .esri-display-object:nth-child(2) svg {
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
+#map .esri-display-object:nth-child(3) svg {
+    -webkit-filter: drop-shadow(4px 4px 4px black);
+    filter: drop-shadow(4px 4px 4px black);
+}
+
+.area-title {
+  width: 10px;
+}
