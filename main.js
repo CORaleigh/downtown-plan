@@ -108,7 +108,7 @@ require([
             placeholder: "Neighborhood",
             resultSymbol: resultSymbol
         }]
-    });
+    }, 'searchDiv');
     // Adds the search widget below other elements in
     // the top left corner of the view
     view.ui.add(searchWidget, {
