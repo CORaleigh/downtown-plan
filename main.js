@@ -48,6 +48,7 @@ require([
         map: map,
         container: "map"
     });
+
     var locateSymbol = new PictureMarkerSymbol({
         width: 30,
         height: 30,
@@ -122,7 +123,9 @@ require([
         }
     });
     map.watch('loaded', function(a, b, c, d) {
-
+        view.popup.dockOptions = {
+          position: 'bottom-left'
+        };
         view.popup.watch('selectedFeature', function(a, b, c, d) {
 
             if (d.selectedFeature) {

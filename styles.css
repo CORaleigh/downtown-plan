@@ -343,7 +343,6 @@ path {
 #map .esri-display-object:nth-child(3) svg {
     -webkit-filter: drop-shadow(4px 4px 4px black);
     filter: drop-shadow(4px 4px 4px black);
-    cursor: pointer;
 }
 
 .area-title {
