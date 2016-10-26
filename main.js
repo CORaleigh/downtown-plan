@@ -11,6 +11,8 @@ require([
     "esri/layers/VectorTileLayer",
     "esri/symbols/PictureMarkerSymbol",
     "esri/widgets/Locate",
+    "esri/widgets/Home",
+    "esri/widgets/Compass",
     "esri/widgets/Search",
     "esri/layers/FeatureLayer",
     "esri/Graphic",
@@ -21,6 +23,8 @@ require([
     VectorTileLayer,
     PictureMarkerSymbol,
     Locate,
+    Home,
+    Compass,
     Search,
     FeatureLayer,
     Graphic
@@ -43,6 +47,18 @@ require([
             position: "top-left",
             index: 0
         });
+    }
+    function addHomeButton() {
+        var homeWidget = new Home({
+          view: view
+        });
+        view.ui.add(homeWidget, "top-left");
+    }
+    function addCompassButton() {
+        var compass = new Compass({
+          view: view
+        });
+        view.ui.add(compass, "top-left");        
     }
     function addSearchSource(url, field, name, symbol) {
         return {
@@ -178,6 +194,8 @@ require([
     }
     createMap();
     addLocateButton();
+    addHomeButton();
+    addCompassButton();
     addSearch();
 });
 function filterTheme(element, theme) {
