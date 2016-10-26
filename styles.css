@@ -302,7 +302,7 @@ _:-ms-input-placeholder, :root .demo-graph {
     font-size: 16px;
   }
   .esri-search {
-    width: 240px;    
+    width: 240px !important;    
   }
 }
 
@@ -311,7 +311,7 @@ _:-ms-input-placeholder, :root .demo-graph {
     font-size: 16px;
   }
   .esri-search {
-    width: 240px;    
+    width: 240px !important;    
   }  
 }
 
@@ -356,5 +356,5 @@ path {
 }
 
 .esri-search {
-  min-width: 282px;
+  width: 282px;
 }
