@@ -367,7 +367,7 @@ path {
 }
 
 .esri-search {
-  width: 282px;
+  width: 282px !important;
 }
 
 .project-areas svg {
