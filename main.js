@@ -123,6 +123,11 @@ require([
         }
     }
     function mapLoaded(a, b, c, d) {
+        document.documentElement.querySelector('.logo').style.display = 'block';
+        document.documentElement.querySelector('.logo').style.opacity = 1;
+        document.documentElement.querySelector('#title').style.display = 'block';
+        document.documentElement.querySelector('#title').style.opacity = 1;
+
         view.popup.dockOptions = {
             position: 'bottom-left'
         };
@@ -210,3 +215,4 @@ document.documentElement.querySelector('.mdl-layout__content').addEventListener(
     'use strict';
     e.preventDefault();
 }, false);
+

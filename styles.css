@@ -255,11 +255,18 @@ _:-ms-input-placeholder, :root .demo-graph {
   color: rgb(36, 73, 143);
 }
 .logo {
-  height: 100px;
+  height: 100%;
   margin-right: 4em;
+  opacity: 0;
+  transition: all 1s linear;  
 }
 .mdl-layout-title {
   font-size: 36px;
+}
+
+#title {
+  opacity: 0;  
+  transition: all 1s linear;  
 }
 
 
@@ -272,7 +279,6 @@ _:-ms-input-placeholder, :root .demo-graph {
     height: 64px;
   }
   .logo {
-    height: 50px;
     margin-right: 1em;
   }
   .mdl-layout-title {
@@ -358,3 +364,5 @@ path {
 .esri-search {
   width: 282px;
 }
+
+
