@@ -322,7 +322,7 @@ _:-ms-input-placeholder, :root .demo-graph {
     font-size: 16px;
   }
   .esri-search {
-    width: 240px !important;    
+    max-width: 240px !important;    
   }  
 }
 
