@@ -274,6 +274,11 @@ _:-ms-input-placeholder, :root .demo-graph {
   filter: contrast(20%);
 }
 
+.selected-theme {
+  fill-opacity: 0;
+}
+
+
 @media screen and (max-width: 1024px) {
   .mdl-layout__header-row {
     height: 64px;
@@ -365,4 +370,7 @@ path {
   width: 282px;
 }
 
+.project-areas svg {
+  filter: blur(1px);
+}
 
