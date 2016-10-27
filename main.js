@@ -101,6 +101,7 @@ require([
                 view.scale = 1144.7034353781848;
             }
         });
+
     }
     function setBackgroundColor(theme) {
         if (theme === 'Move') {
@@ -138,6 +139,16 @@ require([
             d._titleNode.parentNode.style.backgroundColor = setBackgroundColor(theme);
         }
     }
+    function removeFill(uvi) {
+        uvi.symbol.outline.width = 10;
+        uvi.symbol.outline.opacity = 1;
+        uvi.symbol.style = 'none';
+    }
+    function addFill(uvi) {
+        uvi.symbol.outline.width = 0;
+        uvi.symbol.outline.opacity = 0;
+        uvi.symbol.style = 'solid';
+    }
     function mapLoaded(a, b, c, d) {
         document.documentElement.querySelector('.logo').style.display = 'block';
         document.documentElement.querySelector('.logo').style.opacity = 1;
@@ -170,11 +181,35 @@ require([
                 });
             });
         });
+
+      
         areaLyr.on('layerview-create', function (e) {
-            e.layerView.watch('updating', function (val) {
-                if (!val) {
-                    areaLyr.queryFeatures().then(function (results) {
-                        view.goTo(results.features);
+            view.watch('stationary', function (val) {
+                if (val && areaLyr) {
+                    var queryParams = areaLyr.createQuery();
+                    queryParams.geometry = view.extent.center;                    
+                    areaLyr.queryFeatures(queryParams).then(function (results) {
+                        if (results.features.length > 0) {
+                            var area = results.features[0].attributes.Name;
+                        }
+                        var renderer = areaLyr.renderer.clone();
+                        renderer.uniqueValueInfos.forEach(function (uvi, i) {
+                            if (area != undefined) {
+                                if (uvi.value === area.toString()) {
+                                    removeFill(uvi);
+                                    //element.querySelector('svg rect').style.fillOpacity = 0;
+                                } else {
+                                    addFill(uvi);
+                                    //element.parentElement.querySelectorAll('svg rect')[i].style.fillOpacity = 1;
+                                }
+                            } else {
+                                addFill(uvi);
+                            }
+
+
+                        });
+                        areaLyr.renderer = renderer;
+                        
                     });
                 }
             });
@@ -214,14 +249,10 @@ function filterArea(element, area) {
     var renderer = areaLyr.renderer.clone();
     renderer.uniqueValueInfos.forEach(function (uvi, i) {
         if (uvi.value === area.toString() && uvi.symbol.style === 'solid') {
-            uvi.symbol.outline.width = 4;
-            uvi.symbol.outline.opacity = 1;
-            uvi.symbol.style = 'none';
+            removeFill(uvi);
             element.querySelector('svg rect').style.fillOpacity = 0;
         } else {
-            uvi.symbol.outline.width = 0;
-            uvi.symbol.outline.opacity = 0;
-            uvi.symbol.style = 'solid';
+            addFill(uvi);
             element.parentElement.querySelectorAll('svg rect')[i].style.fillOpacity = 1;
         }
     });
