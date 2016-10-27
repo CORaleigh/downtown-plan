@@ -301,6 +301,9 @@ _:-ms-input-placeholder, :root .demo-graph {
     max-width: 200px;
     font-size: 12px !important;    
   }
+  .esri-popup-renderer__text img {
+    max-height: 200px !important;
+  }  
 }
 .esri-popup__content {
   max-height: 400px !important;
@@ -392,7 +395,5 @@ path {
     padding-top: .5em;
 }
 
-.esri-popup-renderer__text img {
-  max-height: 250px !important;
-}
+
 
