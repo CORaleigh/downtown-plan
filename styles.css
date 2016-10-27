@@ -393,6 +393,6 @@ path {
 }
 
 .esri-popup-renderer__text img {
-  max-height: 300px !important;
+  max-height: 250px !important;
 }
 
