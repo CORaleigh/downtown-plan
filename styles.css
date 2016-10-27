@@ -358,8 +358,8 @@ path {
 }
 
 #map .esri-display-object:nth-child(3) svg {
-    -webkit-filter: drop-shadow(4px 4px 4px black);
-    filter: drop-shadow(4px 4px 4px black);
+    -webkit-filter: drop-shadow(2px 2px 2px #666);
+    filter: drop-shadow(2px 2px 2px #666);
 }
 
 .area-title {
@@ -370,7 +370,11 @@ path {
   width: 282px !important;
 }
 
-.project-areas svg {
-  filter: blur(1px);
+.demo-layout .demo-navigation .mdl-navigation__link:hover {
+  background-color: transparent; !important;
+  color: rgb(96, 204, 245) !important;
+  cursor: pointer;
 }
+
+
 
