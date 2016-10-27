@@ -119,25 +119,29 @@ require([
     }
     function featureSelected(a, b, c, d) {
         if (d.selectedFeature) {
-            d.actions.splice(1, 1);
-            if (d.selectedFeature.attributes.URL) {
-                d.actions.push({
-                    id: 'view-website',
-                    title: 'View Website',
-                    className: 'esri-icon-link-external'
-                });
-            }
-            if (action) {
-                action.remove();
-            }
-            action = d.viewModel.on("trigger-action", function (event) {
-                if (event.action.id === 'view-website') {
-                    window.open(event.target.selectedFeature.attributes.URL);
+            //if (d.selectedFeature.layer.title === "Downtown Plan Projects") {
+                d.actions.splice(1, 1);
+                if (d.selectedFeature.attributes.URL) {
+                    d.actions.push({
+                        id: 'view-website',
+                        title: 'View Website',
+                        className: 'esri-icon-link-external'
+                    });
                 }
-            });
-            var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
-            d._titleNode.parentNode.style.backgroundColor = setBackgroundColor(theme);
-        }
+                if (action) {
+                    action.remove();
+                }
+                action = d.viewModel.on("trigger-action", function (event) {
+                    if (event.action.id === 'view-website') {
+                        window.open(event.target.selectedFeature.attributes.URL);
+                    }
+                });
+                var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
+                d._titleNode.parentNode.style.backgroundColor = setBackgroundColor(theme);
+            } else {
+                d.actions.splice(1, 1);                
+            }
+       // }
     }
 
     function mapLoaded(a, b, c, d) {
