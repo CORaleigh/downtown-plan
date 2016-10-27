@@ -186,7 +186,7 @@ require([
                         }
                         var renderer = areaLyr.renderer.clone();
                         renderer.uniqueValueInfos.forEach(function (uvi, i) {
-                            if (area !== undefined) {
+                            if (area != undefined) {
                                 if (uvi.value === area.toString()) {
                                     removeFill(uvi);
                                     document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 0;
@@ -196,6 +196,8 @@ require([
                                 }
                             } else {
                                 addFill(uvi);
+                                document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 1;
+
                             }
                         });
                         areaLyr.renderer = renderer;
