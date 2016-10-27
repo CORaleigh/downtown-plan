@@ -264,7 +264,7 @@ _:-ms-input-placeholder, :root .demo-graph {
   font-size: 36px;
 }
 
-#title {
+#titleDiv {
   opacity: 0;  
   transition: all 1s linear;  
 }
@@ -291,6 +291,15 @@ _:-ms-input-placeholder, :root .demo-graph {
   }
   #list {
     top: 50px !important;
+  }
+  .subtitle {
+    font-size: 14px !important;
+  }
+}
+@media screen and (max-width: 450px) {
+  .subtitle {
+    max-width: 200px;
+    font-size: 12px !important;    
   }
 }
 .esri-popup__content {
@@ -376,5 +385,10 @@ path {
   cursor: pointer;
 }
 
-
+.subtitle {
+    color: white;
+    display: block;
+    font-size: 20px;
+    padding-top: .5em;
+}
 
