@@ -136,7 +136,7 @@ require([
                         window.open(event.target.selectedFeature.attributes.URL);
                     }
                 });
-                var theme = themeLyr.fields[5].domain.codedValues[d.selectedFeature.attributes.Theme].name;
+                var theme = themeLyr.fields[4].domain.codedValues[d.selectedFeature.attributes.Theme].name;
                 d._titleNode.parentNode.style.backgroundColor = setBackgroundColor(theme);
             } else {
                 d.actions.splice(1, 1);                
