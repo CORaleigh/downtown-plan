@@ -287,8 +287,9 @@ document.documentElement.addEventListener('touchstart', function (event) {
         event.preventDefault();
     }
 }, false);
-// document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
-//     'use strict';
-//     e.preventDefault();
-// }, false);
+document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
+    'use strict';
+    console.log(e);
+    e.preventDefault();
+}, false);
 
