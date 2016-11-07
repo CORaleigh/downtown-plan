@@ -166,7 +166,7 @@ require([
                     var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
                     var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
                     var content = document.documentElement.querySelector('.esri-popup__content');
-                    content.style.height = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
+                    content.style.maxHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
                 }, 0);
             }
         });
