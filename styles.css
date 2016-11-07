@@ -305,10 +305,7 @@ _:-ms-input-placeholder, :root .demo-graph {
     max-height: 200px !important;
   }  
 }
-.esri-popup__content {
-  max-height: 350px !important;
-  overflow-y: auto !important;
-}
+
 
 .mdl-layout {
   overflow: hidden;
