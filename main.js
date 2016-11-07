@@ -158,14 +158,16 @@ require([
         view.popup.watch('selectedFeature', featureSelected);
         view.popup.watch('visible', function (visible) {
             if (visible) {
-                var headerHeight = document.documentElement.querySelector('.mdl-layout__header-row').clientHeight;
-                var popupHeader = document.documentElement.querySelector('.esri-popup__header');
-                var popupHeaderHeight = popupHeader.clientHeight;
-                var popupHeaderMargin = parseInt(getComputedStyle(popupHeader).marginBottom);
-                var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
-                var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
-                var content = document.documentElement.querySelector('.esri-popup__content');
-                content.style.height = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
+                window.setTimeout(function () {
+                    var headerHeight = document.documentElement.querySelector('.mdl-layout__header-row').clientHeight;
+                    var popupHeader = document.documentElement.querySelector('.esri-popup__header');
+                    var popupHeaderHeight = popupHeader.clientHeight;
+                    var popupHeaderMargin = parseInt(getComputedStyle(popupHeader).marginBottom);
+                    var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
+                    var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
+                    var content = document.documentElement.querySelector('.esri-popup__content');
+                    content.style.height = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
+                }, 0);
             }
         });
         d.layers.forEach(function (l) {
@@ -185,13 +187,11 @@ require([
                 });
             });
         });
-
-      
-        areaLyr.on('layerview-create', function (e) {
+        areaLyr.on('layerview-create', function () {
             view.watch('stationary', function (val) {
                 if (val && areaLyr) {
                     var queryParams = areaLyr.createQuery();
-                    queryParams.geometry = view.extent.center;                    
+                    queryParams.geometry = view.extent.center;
                     areaLyr.queryFeatures(queryParams).then(function (results) {
                         var area = null;
                         if (results.features.length > 0) {
@@ -199,7 +199,7 @@ require([
                         }
                         var renderer = areaLyr.renderer.clone();
                         renderer.uniqueValueInfos.forEach(function (uvi, i) {
-                            if (area != null && view.scale < 10000) {
+                            if (area !== null && view.scale < 10000) {
                                 if (uvi.value === area.toString() && view.scale < 10000) {
                                     removeFill(uvi);
                                     document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 0;
