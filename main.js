@@ -1,7 +1,6 @@
 var themeLyr = null,
     areaLyr = null,
     themes = [0, 1, 2, 3],
-    areas = [0, 1, 2, 3, 4],
     map = null,
     view = null,
     action = null;
@@ -56,9 +55,9 @@ require([
     }
     function addCompassButton() {
         var compass = new Compass({
-          view: view
+            view: view
         });
-        view.ui.add(compass, "top-left");        
+        view.ui.add(compass, "top-left");
     }
     function addSearchSource(url, field, name, symbol) {
         return {
@@ -119,29 +118,27 @@ require([
     }
     function featureSelected(a, b, c, d) {
         if (d.selectedFeature) {
-            //if (d.selectedFeature.layer.title === "Downtown Plan Projects") {
-                d.actions.splice(1, 1);
-                if (d.selectedFeature.attributes.URL) {
-                    d.actions.push({
-                        id: 'view-website',
-                        title: 'View Website',
-                        className: 'esri-icon-link-external'
-                    });
-                }
-                if (action) {
-                    action.remove();
-                }
-                action = d.viewModel.on("trigger-action", function (event) {
-                    if (event.action.id === 'view-website') {
-                        window.open(event.target.selectedFeature.attributes.URL);
-                    }
+            d.actions.splice(1, 1);
+            if (d.selectedFeature.attributes.URL) {
+                d.actions.push({
+                    id: 'view-website',
+                    title: 'View Website',
+                    className: 'esri-icon-link-external'
                 });
-                var theme = themeLyr.fields[4].domain.codedValues[d.selectedFeature.attributes.Theme].name;
-                d._titleNode.parentNode.style.backgroundColor = setBackgroundColor(theme);
-            } else {
-                d.actions.splice(1, 1);                
             }
-       // }
+            if (action) {
+                action.remove();
+            }
+            action = d.viewModel.on("trigger-action", function (event) {
+                if (event.action.id === 'view-website') {
+                    window.open(event.target.selectedFeature.attributes.URL);
+                }
+            });
+            var theme = themeLyr.fields[4].domain.codedValues[d.selectedFeature.attributes.Theme].name;
+            d._titleNode.parentNode.style.backgroundColor = setBackgroundColor(theme);
+        } else {
+            d.actions.splice(1, 1);                
+        }
     }
 
     function mapLoaded(a, b, c, d) {
@@ -159,6 +156,18 @@ require([
         });
         map.add(tileLyr, 0);
         view.popup.watch('selectedFeature', featureSelected);
+        view.popup.watch('visible', function (visible) {
+            if (visible) {
+                var headerHeight = document.documentElement.querySelector('.mdl-layout__header-row').clientHeight;
+                var popupHeader = document.documentElement.querySelector('.esri-popup__header');
+                var popupHeaderHeight = popupHeader.clientHeight;
+                var popupHeaderMargin = parseInt(getComputedStyle(popupHeader).marginBottom);
+                var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
+                var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
+                var content = document.documentElement.querySelector('.esri-popup__content');
+                content.style.height = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
+            }
+        });
         d.layers.forEach(function (l) {
             if (l.title === 'Downtown Plan Projects') {
                 themeLyr = l;
