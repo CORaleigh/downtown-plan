@@ -289,7 +289,8 @@ document.documentElement.addEventListener('touchstart', function (event) {
 }, false);
 document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
     'use strict';
-    console.log(e);
-    e.preventDefault();
+    if (e.target.className.indexOf('esri-popup-renderer__text') === -1) {
+        e.preventDefault();
+    }
 }, false);
 
