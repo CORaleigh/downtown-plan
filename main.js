@@ -281,12 +281,12 @@ function filterArea(element, area) {
         }
     });
 }
-// document.documentElement.addEventListener('touchstart', function (event) {
-//     'use strict';
-//     if (event.touches.length > 1) {
-//         event.preventDefault();
-//     }
-// }, false);
+document.documentElement.addEventListener('touchstart', function (event) {
+    'use strict';
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, false);
 // document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
 //     'use strict';
 //     e.preventDefault();
