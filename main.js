@@ -289,10 +289,13 @@ document.documentElement.addEventListener('touchstart', function (event) {
 }, false);
 document.documentElement.querySelector('.mdl-layout__content').addEventListener('touchmove', function (e) {
     'use strict';
-    if (typeof e.target.className === 'string') {
-        if (e.target.className.indexOf('esri-popup-renderer__text') === -1) {
-            e.preventDefault();
-        }
+    if (typeof e.target.className != 'string') {
+        e.preventDefault();
+        return false;
+    }
+    if (e.target.className.indexOf('esri-popup-renderer__text') === -1) {
+        e.preventDefault();
+        return false;
     }
 }, false);
 
