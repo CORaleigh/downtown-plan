@@ -295,6 +295,7 @@ _:-ms-input-placeholder, :root .demo-graph {
   .subtitle {
     font-size: 14px !important;
   }
+
 }
 @media screen and (max-width: 450px) {
   .subtitle {
@@ -305,6 +306,25 @@ _:-ms-input-placeholder, :root .demo-graph {
     max-height: 200px !important;
   }  
 }
+
+@media screen and (max-height: 800px) {
+  .mdl-layout__header-row {
+    height: 64px;
+  }
+  .logo {
+    margin-right: 1em;
+  }
+  .mdl-layout-title {
+    font-size: 20px;
+  }
+  #list {
+    top: 50px !important;
+  }
+  .subtitle {
+    font-size: 14px !important;
+  }
+}
+
 
 
 .mdl-layout {

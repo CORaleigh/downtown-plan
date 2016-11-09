@@ -146,7 +146,7 @@ require([
         document.documentElement.querySelector('.logo').style.opacity = 1;
         document.documentElement.querySelector('#titleDiv').style.display = 'block';
         document.documentElement.querySelector('#titleDiv').style.opacity = 1;
-
+        view.popup.dockEnabled = true;
         view.popup.dockOptions = {
             position: 'bottom-left'
         };
@@ -157,7 +157,13 @@ require([
         map.add(tileLyr, 0);
         view.popup.watch('selectedFeature', featureSelected);
         view.popup.watch('visible', function (visible) {
-            if (visible) {
+        var padding = 20;
+        if (visible && document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-small') > -1) {
+            padding = 0;
+        }
+            //if (visible && document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-medium') > -1) {
+                //view.popup.dockOptions.position = 'bottom-center';
+                view.popup.dockOptions = {buttonEnabled: false, position: 'bottom-right'};
                 window.setTimeout(function () {
                     var headerHeight = document.documentElement.querySelector('.mdl-layout__header-row').clientHeight;
                     var popupHeader = document.documentElement.querySelector('.esri-popup__header');
@@ -166,9 +172,16 @@ require([
                     var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
                     var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
                     var content = document.documentElement.querySelector('.esri-popup__content');
-                    content.style.maxHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
+                    content.style.maxHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight - padding + 'px';
+                    console.log(content.style.maxHeight);
+                    //content.style.minHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
+
                 }, 0);
-            }
+            // } else {
+            //         var content = document.documentElement.querySelector('.esri-popup__content');
+            //         content.style.maxHeight = '400px';
+            //         content.style.minHeight = '400px';
+            // }
         });
         d.layers.forEach(function (l) {
             if (l.title === 'Downtown Plan Projects') {
