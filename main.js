@@ -145,6 +145,33 @@ require([
             d.actions.splice(1, 1);                
         }
     }
+    function setPopupHeight() {
+        var padding = 20;
+        if (document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-small') > -1) {
+            padding = 0;
+        }
+        //if (visible && document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-medium') > -1) {
+            //view.popup.dockOptions.position = 'bottom-center';
+        view.popup.dockOptions = {buttonEnabled: false, position: 'bottom-right'};
+        window.setTimeout(function () {
+            var headerHeight = document.documentElement.querySelector('.mdl-layout__header-row').clientHeight;
+            var popupHeader = document.documentElement.querySelector('.esri-popup__header');
+            var popupHeaderHeight = popupHeader.clientHeight;
+            var popupHeaderMargin = parseInt(getComputedStyle(popupHeader).marginBottom);
+            var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
+            var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
+            var content = document.documentElement.querySelector('.esri-popup__content');
+            content.style.maxHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight - padding + 'px';
+            console.log(content.style.maxHeight);
+            //content.style.minHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
+
+        }, 0);
+        // } else {
+        //         var content = document.documentElement.querySelector('.esri-popup__content');
+        //         content.style.maxHeight = '400px';
+        //         content.style.minHeight = '400px';
+        // }        
+    }
 
     function mapLoaded(a, b, c, d) {
         document.documentElement.querySelector('.logo').style.display = 'block';
@@ -164,7 +191,7 @@ require([
 
         view.popup._message.watch('visible', function (visible) {
             if (visible) {
-
+                view.popup._message.text = '';
                 var buffer = geometryEngine.buffer(view.popup.location, view.scale/50, 'feet');
                 var q = new Query();
                 q.outFields = ['*'];
@@ -173,36 +200,11 @@ require([
                     if (results.features.length > 0) {
                         view.popup.features = results.features;
                     }
+                    view.popup._message.text = 'No features found';
                 });
             }
-        })
-        view.popup.watch('visible', function (visible) {
-        var padding = 20;
-        if (visible && document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-small') > -1) {
-            padding = 0;
-        }
-            //if (visible && document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-medium') > -1) {
-                //view.popup.dockOptions.position = 'bottom-center';
-                view.popup.dockOptions = {buttonEnabled: false, position: 'bottom-right'};
-                window.setTimeout(function () {
-                    var headerHeight = document.documentElement.querySelector('.mdl-layout__header-row').clientHeight;
-                    var popupHeader = document.documentElement.querySelector('.esri-popup__header');
-                    var popupHeaderHeight = popupHeader.clientHeight;
-                    var popupHeaderMargin = parseInt(getComputedStyle(popupHeader).marginBottom);
-                    var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
-                    var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
-                    var content = document.documentElement.querySelector('.esri-popup__content');
-                    content.style.maxHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight - padding + 'px';
-                    console.log(content.style.maxHeight);
-                    //content.style.minHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
-
-                }, 0);
-            // } else {
-            //         var content = document.documentElement.querySelector('.esri-popup__content');
-            //         content.style.maxHeight = '400px';
-            //         content.style.minHeight = '400px';
-            // }
         });
+        view.popup.watch('visible', setPopupHeight);
         d.layers.forEach(function (l) {
             if (l.title === 'Downtown Plan Projects') {
                 themeLyr = l;
