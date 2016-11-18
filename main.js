@@ -1,6 +1,7 @@
 var themeLyr = null,
     areaLyr = null,
     themes = [0, 1, 2, 3],
+    areas = [0, 1, 2, 3, 4],
     map = null,
     view = null,
     action = null;
@@ -275,24 +276,33 @@ function filterTheme(element, theme) {
 }
 function filterArea(element, area) {
     'use strict';
-    var renderer = areaLyr.renderer.clone();
-    renderer.uniqueValueInfos.forEach(function (uvi, i) {
-        if (uvi.value === area.toString() && uvi.symbol.style === 'solid') {
-            removeFill(uvi);
-            element.querySelector('svg rect').style.fillOpacity = 0;
-        } else {
-            addFill(uvi);
-            element.parentElement.querySelectorAll('svg rect')[i].style.fillOpacity = 1;
-        }
-    });
-    areaLyr.renderer = renderer;
-    var queryParams = areaLyr.createQuery();
-    queryParams.where = "Name = " + area;
-    areaLyr.queryFeatures(queryParams).then(function (results) {
-        if (results.features.length > 0) {
-            view.goTo(results.features[0].geometry.extent.expand(1.25));
-        }
-    });
+    if (areas.indexOf(area) > -1) {
+        areas.splice(areas.indexOf(area), 1);
+        element.querySelector('svg').classList.add('unselected');
+    } else {
+        areas.push(area);
+        element.querySelector('svg').classList.remove('unselected');
+    }
+    areaLyr.definitionExpression = "Name in (" + areas.toString() + ")";    
+    // 'use strict';
+    // var renderer = areaLyr.renderer.clone();
+    // renderer.uniqueValueInfos.forEach(function (uvi, i) {
+    //     if (uvi.value === area.toString() && uvi.symbol.style === 'solid') {
+    //         removeFill(uvi);
+    //         element.querySelector('svg rect').style.fillOpacity = 0;
+    //     } else {
+    //         addFill(uvi);
+    //         element.parentElement.querySelectorAll('svg rect')[i].style.fillOpacity = 1;
+    //     }
+    // });
+    // areaLyr.renderer = renderer;
+    // var queryParams = areaLyr.createQuery();
+    // queryParams.where = "Name = " + area;
+    // areaLyr.queryFeatures(queryParams).then(function (results) {
+    //     if (results.features.length > 0) {
+    //         view.goTo(results.features[0].geometry.extent.expand(1.25));
+    //     }
+    // });
 }
 document.documentElement.addEventListener('touchstart', function (event) {
     'use strict';
