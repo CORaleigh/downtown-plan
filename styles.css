@@ -413,5 +413,7 @@ path {
     padding-top: .5em;
 }
 
-
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+  padding: 8px 40px;
+}
 
