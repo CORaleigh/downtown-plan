@@ -201,37 +201,37 @@ require([
                 });
             });
         });
-        areaLyr.on('layerview-create', function () {
-            view.watch('stationary', function (val) {
-                if (val && areaLyr) {
-                    var queryParams = areaLyr.createQuery();
-                    queryParams.geometry = view.extent.center;
-                    areaLyr.queryFeatures(queryParams).then(function (results) {
-                        var area = null;
-                        if (results.features.length > 0) {
-                            area = results.features[0].attributes.Name;
-                        }
-                        var renderer = areaLyr.renderer.clone();
-                        renderer.uniqueValueInfos.forEach(function (uvi, i) {
-                            if (area !== null && view.scale < 10000) {
-                                if (uvi.value === area.toString() && view.scale < 10000) {
-                                    removeFill(uvi);
-                                    document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 0;
-                                } else {
-                                    addFill(uvi);
-                                    document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 1;
-                                }
-                            } else {
-                                addFill(uvi);
-                                document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 1;
+        // areaLyr.on('layerview-create', function () {
+        //     view.watch('stationary', function (val) {
+        //         if (val && areaLyr) {
+        //             var queryParams = areaLyr.createQuery();
+        //             queryParams.geometry = view.extent.center;
+        //             areaLyr.queryFeatures(queryParams).then(function (results) {
+        //                 var area = null;
+        //                 if (results.features.length > 0) {
+        //                     area = results.features[0].attributes.Name;
+        //                 }
+        //                 var renderer = areaLyr.renderer.clone();
+        //                 renderer.uniqueValueInfos.forEach(function (uvi, i) {
+        //                     if (area !== null && view.scale < 10000) {
+        //                         if (uvi.value === area.toString() && view.scale < 10000) {
+        //                             removeFill(uvi);
+        //                             document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 0;
+        //                         } else {
+        //                             addFill(uvi);
+        //                             document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 1;
+        //                         }
+        //                     } else {
+        //                         addFill(uvi);
+        //                         document.querySelectorAll('.area-svg rect')[i].style.fillOpacity = 1;
 
-                            }
-                        });
-                        areaLyr.renderer = renderer;
-                    });
-                }
-            });
-        });
+        //                     }
+        //                 });
+        //                 areaLyr.renderer = renderer;
+        //             });
+        //         }
+        //     });
+        // });
     }
     function createMap() {
         map = new WebMap({
