@@ -16,6 +16,8 @@ require([
     "esri/widgets/Search",
     "esri/layers/FeatureLayer",
     "esri/Graphic",
+    "esri/geometry/geometryEngine",
+    "esri/tasks/support/Query",
     "dojo/domReady!"
 ], function (
     MapView,
@@ -27,7 +29,9 @@ require([
     Compass,
     Search,
     FeatureLayer,
-    Graphic
+    Graphic,
+    geometryEngine,
+    Query
 ) {
     'use strict';
     function addLocateButton() {
@@ -157,6 +161,21 @@ require([
         });
         map.add(tileLyr, 0);
         view.popup.watch('selectedFeature', featureSelected);
+
+        view.popup._message.watch('visible', function (visible) {
+            if (visible) {
+
+                var buffer = geometryEngine.buffer(view.popup.location, view.scale/50, 'feet');
+                var q = new Query();
+                q.outFields = ['*'];
+                q.geometry = buffer.extent;
+                themeLyr.queryFeatures(q).then(function (results) {
+                    if (results.features.length > 0) {
+                        view.popup.features = results.features;
+                    }
+                });
+            }
+        })
         view.popup.watch('visible', function (visible) {
         var padding = 20;
         if (visible && document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-small') > -1) {
