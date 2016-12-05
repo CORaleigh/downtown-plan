@@ -382,12 +382,12 @@ path {
   color: #000;
 }
 
-#map .esri-display-object:nth-child(3) svg {
-  -webkit-filter: blur(20px);
-  filter: blur(20px);
+#map .esri-display-object:nth-child(2) svg {
+  -webkit-filter: blur(10px);
+  filter: blur(10px);
 }
 
-#map .esri-display-object:nth-child(4) svg {
+#map .esri-display-object:nth-child(3) svg {
     -webkit-filter: drop-shadow(2px 2px 2px #666);
     filter: drop-shadow(2px 2px 2px #666);
 }
