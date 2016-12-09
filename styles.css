@@ -87,6 +87,8 @@ html, body {
           justify-content: flex-end;
   padding: 16px;
   height: 70px;
+  font-weight: 700;
+  font-size: 15px;
 }
 .demo-avatar-dropdown {
   display: -webkit-flex;
@@ -103,9 +105,10 @@ html, body {
 }
 
 .demo-navigation {
-  -webkit-flex-grow: 1;
+/*  -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
-          flex-grow: 1;
+          flex-grow: 1;*/
+  padding-bottom: 1em;
 }
 .demo-layout .demo-navigation .mdl-navigation__link {
   display: -webkit-flex !important;
@@ -118,7 +121,7 @@ html, body {
       -ms-flex-align: center;
           align-items: center;
   color: rgba(255, 255, 255, 0.56);
-  font-weight: 500;
+  font-weight: 300;
 }
 .demo-layout .demo-navigation .mdl-navigation__link:hover {
   background-color: #00BCD4;
@@ -261,9 +264,9 @@ _:-ms-input-placeholder, :root .demo-graph {
   transition: all 1s linear;  
 }
 .mdl-layout-title {
-  font-size: 36px;
+    font-size: 48px;
+    font-weight: 500;
 }
-
 #titleDiv {
   opacity: 0;  
   transition: all 1s linear;  
