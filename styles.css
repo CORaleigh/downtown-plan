@@ -385,12 +385,12 @@ path {
   color: #000;
 }
 
-#map .esri-display-object:nth-child(2) svg {
-  -webkit-filter: blur(10px);
-  filter: blur(10px);
+#map .esri-display-object:nth-child(3) svg {
+  -webkit-filter: blur(15px);
+  filter: blur(15px);
 }
 
-#map .esri-display-object:nth-child(3) svg {
+#map .esri-display-object:nth-child(4) svg {
     -webkit-filter: drop-shadow(2px 2px 2px #666);
     filter: drop-shadow(2px 2px 2px #666);
 }
@@ -420,3 +420,6 @@ path {
   padding: 8px 40px;
 }
 
+.esri-popup--is-docked {
+  margin: 15px 15px 20px 15px !important; 
+}

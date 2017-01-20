@@ -122,6 +122,8 @@ require([
         }
     }
     function featureSelected(a, b, c, d) {
+                    //document.querySelectorAll('.esri-display-object svg path')[3].style.fill = "url(#exampleGradient)";
+
         if (d.selectedFeature) {
             d.actions.splice(1, 1);
             if (d.selectedFeature.attributes.URL) {
@@ -145,7 +147,40 @@ require([
             d.actions.splice(1, 1);                
         }
     }
+    function setGradientFill () {
+        var paths = document.querySelectorAll('#map .esri-display-object:nth-child(3) svg');
+        
+        var blur = 15;
+         switch (view.zoom) {
+            case 13:
+                blur = 15;
+                break;
+            case 14:
+                blur = 30;
+                break;
+            case 15:
+                blur = 45;
+                break;
+            case 16:
+                blur = 60;
+                break;
+         }
+         console.log(blur);
+         paths.forEach(function (path, i) { 
+            
+            path.style.webkitFilter = "blur(" + blur + "px)";
+
+            
+        });    
+        //     if (i === 2) {
+        //         path.style.cx = 10000;
+        //         path.style.cy = 10000;
+        //         path.style.r = 10000;
+        //     }
+        // });        
+    }
     function setPopupHeight() {
+
         var padding = 20;
         if (document.documentElement.querySelector('.esri-view').className.indexOf('esri-view-width-less-than-small') > -1) {
             padding = 0;
@@ -160,8 +195,9 @@ require([
             var popupHeaderMargin = parseInt(getComputedStyle(popupHeader).marginBottom);
             var footerHeight = document.documentElement.querySelector('.esri-popup__footer').clientHeight;
             var attributeHeight = document.documentElement.querySelector('.esri-attribution').clientHeight;
-            var content = document.documentElement.querySelector('.esri-popup__content');
-            content.style.maxHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight - padding + 'px';
+            var content = document.documentElement.querySelector('.esri-popup__main-container');
+            //content.style.maxHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight - padding + 'px';
+            content.style.maxHeight = (document.documentElement.querySelector('#map').clientHeight - popupHeaderMargin - attributeHeight) + 'px';
             console.log(content.style.maxHeight);
             //content.style.minHeight = window.innerHeight - headerHeight - popupHeaderHeight - popupHeaderMargin - attributeHeight - footerHeight + 'px';
 
@@ -178,10 +214,8 @@ require([
         document.documentElement.querySelector('.logo').style.opacity = 1;
         document.documentElement.querySelector('#titleDiv').style.display = 'block';
         document.documentElement.querySelector('#titleDiv').style.opacity = 1;
-        view.popup.dockEnabled = true;
-        view.popup.dockOptions = {
-            position: 'bottom-left'
-        };
+
+
         map.basemap.baseLayers = [];
         var tileLyr = new VectorTileLayer({
             url: "https://www.arcgis.com/sharing/rest/content/items/3981b4e8cabb4b0fb6d4a8c94379532b/resources/styles/root.json"
@@ -189,18 +223,26 @@ require([
         map.add(tileLyr, 0);
         view.popup.watch('selectedFeature', featureSelected);
 
-        view.popup._message.watch('visible', function (visible) {
-            if (visible) {
-                view.popup._message.text = '';
+        view.popup.watch('features', function (features) {
+            if (features.length === 0) {
+                
                 var buffer = geometryEngine.buffer(view.popup.location, view.scale/50, 'feet');
                 var q = new Query();
                 q.outFields = ['*'];
                 q.geometry = buffer.extent;
                 themeLyr.queryFeatures(q).then(function (results) {
                     if (results.features.length > 0) {
-                        view.popup.features = results.features;
+                        window.setTimeout(function () {
+
+                            view.popup.features = results.features;
+                            console.log(view.popup.features);
+                        }, 500);
+                        view.popup.messageEnabled = false;
+
+                    } else {
+                        view.popup.messageEnabled = true;
                     }
-                    view.popup._message.text = 'No features found';
+
                 });
             }
         });
@@ -222,6 +264,15 @@ require([
                 });
             });
         });
+
+        view.whenLayerView(areaLyr).then(function(lyrView){
+          view.watch("updating", function(val){
+            if(!val){  // wait for the layer view to finish updating
+              setGradientFill();
+            }
+          });
+        });
+        
         // areaLyr.on('layerview-create', function () {
         //     view.watch('stationary', function (val) {
         //         if (val && areaLyr) {
@@ -262,7 +313,17 @@ require([
         });
         view = new MapView({
             map: map,
-            container: "map"
+            container: "map",
+            popup: {
+              dockEnabled: true,
+              dockOptions: {
+                // Disables the dock button from the popup
+                buttonEnabled: false,
+                // Ignore the default sizes that trigger responsive docking
+                breakpoint: false,
+                position: 'bottom-left'
+              }
+            }
         });
         map.watch('loaded', mapLoaded);
     }
